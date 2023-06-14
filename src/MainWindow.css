@@ -1,0 +1,254 @@
+/*
+    Content/Folders
+*/
+
+.content {
+  margin-top: 50px;
+  margin-bottom: 75px;
+}
+
+.content .folder-name {
+  font-size: 18px;
+}
+
+.content .folder {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 50px;
+}
+
+.content .folder .folder-control {
+  margin-top: 10px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.content .folder .folder-control img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  object-fit: contain;
+}
+
+.content .folder-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 10px;
+  margin-left: 10px;
+  gap: 15px;
+}
+
+.content .folder-content .folder-item {
+  width: 125px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: center;
+  user-select: text;
+}
+
+.content .folder-content .folder-item.selected {
+  background-color: #ccc;
+}
+
+
+.content .folder-content .folder-item .folder-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.content .folder-content .folder-item .folder-name {
+  margin-top: 10px;
+  font-size: 14px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*
+    Settings bar
+*/
+
+.settingsbar {
+  background-color: #f1f1f1;
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 10px;
+  gap: 5px;
+}
+
+.settingsbar .button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 12px 20px 12px 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.settingsbar .button-icon {
+  margin-right: 15px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.settingsbar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.settingsbar #icon-only {
+  padding: 1rem;
+  padding-left: -1rem;
+  padding-right: 1.25rem;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.settingsbar #icon-only img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  margin-left: -0.35rem;
+}
+
+.settingsbar .button-text {
+  font-size: 14px;
+}
+
+.settingsbar .button:hover {
+  background-color: #ccc;
+}
+
+.settingsbar .separator {
+  width: 1px;
+  height: 30px;
+  background-color: #ccc;
+  margin: 0 10px;
+}
+
+.settingsbar #end {
+  margin-left: auto;
+  margin-right: 1.25rem;
+}
+
+/*
+    Info bar
+*/
+
+.infobar {
+  background-color: #f1f1f1;
+  width: 100%;
+  height: 75px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 10px;
+  gap: 5px;
+}
+
+.infobar .infobar-end {
+  margin-left: auto;
+  margin-right: 1.25rem;
+}
+
+.infobar text {
+  font-size: 14px;
+}
+
+.infobar-server {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.infobar-server-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-right: 5px;
+}
+
+.infobar-server-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.infobar-server-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.infobar-server-software {
+  font-size: 14px;
+}
+
+.infobar-server-version {
+  font-size: 14px;
+}
+
+.infobar-controls .button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 6px 10px 6px 5px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.infobar-controls .button:hover {
+  background-color: #ccc;
+}
+
+.infobar-controls .button-icon {
+  margin-right: 15px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.infobar-controls img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
