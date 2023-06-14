@@ -10,6 +10,8 @@ const createWindow = () => {
         webPreferences: {
             //preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
+            enableRemoteModule: true,
+            contextIsolation: false,
         }
     })
 
@@ -27,8 +29,9 @@ const createWindow = () => {
 }
 
 ipcMain.on('create-window', (event, arg) => {
-        createInstanceWindow();
-});
+    console.log('create-window received');
+    createInstanceWindow();
+})
 
 const createInstanceWindow = () => {
     // Create the browser window.

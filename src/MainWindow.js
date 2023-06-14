@@ -1,9 +1,14 @@
 import './MainWindow.css';
 import { useState, useEffect } from 'react';
+const { ipcRenderer } = window.require('electron');
 
 function Button({ text, icon, id }) {
+  const handleItemClick = () => {
+    // Implement your click logic here
+    ipcRenderer.send(text.toLowerCase() + '-window')
+  };
   return (
-    <div className="button" id={id}>
+    <div className="button" id={id} onClick={handleItemClick}>
       <div className="button-icon">
         <img src={`./static/images/${icon}.svg`} alt={icon} />
       </div>
@@ -42,6 +47,7 @@ function FolderItem({ text, icon }) {
   const handleItemDoubleClick = () => {
     // Implement your double-click logic here
     console.log('Double-clicked on', text);
+    ipcRenderer.send('create-window')
   };
 
   const handleDocumentClick = (event) => {
