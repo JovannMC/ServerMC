@@ -9,7 +9,16 @@ export const mainConfig: Configuration = {
    */
   entry: './src/index.ts',
   module: {
-    rules
+    rules: [
+      ...rules,
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {}
+        }]
+      }
+    ]
   },
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],

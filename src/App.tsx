@@ -89,10 +89,6 @@ function App() {
     return (
         <div className="App">
             <div className="sidebar">
-                <div className="logo">
-                    <img src="./static/images/logo.svg" alt="ServerMC logo" />
-                </div>
-
                 <div className="settingsbar">
                     <Button text="Create" icon="question" />
                     <Separator />
@@ -108,9 +104,6 @@ function App() {
                             <img src="./static/images/uncollapse-icon.png" alt="Collapse icon" className="folder-control-icon"></img>
                             <div className="folder-name">Lorem ipsum dolor sit amet</div>
                         </div>
-                        <FolderItem text="Folder 1" icon="folder" />
-                        <FolderItem text="Folder 2" icon="folder" />
-                        <FolderItem text="Folder 3" icon="folder" />
                     </div>
                     <div className="folder-content">
                         <FolderItem text="Minecraft SMP Server" icon="minecraft"></FolderItem>
