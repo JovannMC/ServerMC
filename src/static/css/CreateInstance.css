@@ -1,0 +1,235 @@
+@import "./app.global.css";
+
+/*
+    Content/Folders
+*/
+
+.section-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 50px;
+  width: 100%;
+  height: 100%;
+}
+
+/* 
+    Section bar
+*/
+
+.sectionbar {
+  background-color: #f1f1f1;
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sectionbar .section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: 10px;
+  flex-grow: 1;
+}
+
+.sectionbar .section .section-icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.sectionbar .section .section-icon img {
+  width: 25px;
+  height: 25px;
+}
+
+.sectionbar .section .section-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* 
+    Server info
+*/
+
+.server-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border: 2px solid #ccc;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.server-icon img {
+  width: 125px;
+  height: 125px;
+}
+
+.server-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.server-info .server-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.server-info .server-group,
+.server-info .server-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.server-info .server-software {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+/* 
+    Versions
+*/
+
+.versions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 90%;
+  margin-top: 50px;
+}
+
+.versions .versions-text {
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.versions-list {
+  width: 125px;
+  height: 100%;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+}
+
+.versions-list .version {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.versions-list .version:hover {
+  background-color: #f1f1f1;
+}
+
+.versions-list .version.selected {
+  background-color: #ccc;
+}
+
+/* 
+    Server software
+*/
+
+.server-software {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 32px;
+  margin-left: -167px;
+}
+
+.server-software label {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.server-software select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Optional: Add some styling to highlight the selected option */
+.server-software select:focus {
+  outline: none;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+/*
+    Allocation
+*/
+
+.allocation {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 10px;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.allocation .allocation-text {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.allocation .allocation-settings {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.allocation .allocation-settings-text {
+  font-size: 16px;
+  font-weight: 400;
+  width: 40px;
+}
+
+.allocation .setting {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

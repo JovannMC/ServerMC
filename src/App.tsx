@@ -1,6 +1,6 @@
 import './static/css/index.css';
 import { hot } from 'react-hot-loader';
-import * as React from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { ipcRenderer } from 'electron';
 
@@ -12,7 +12,14 @@ interface ButtonProps {
 
 function Button({ text, icon, id }: ButtonProps) {
     const handleItemClick = () => {
-        ipcRenderer.send(text.toLowerCase() + '-window');
+        if (text != null && text != undefined) {
+            console.log('Clicked on', text);
+            ipcRenderer.send(text.toLowerCase() + '-window');
+        } else {
+            console.log('Clicked on', icon);
+            ipcRenderer.send(icon.toLowerCase() + '-window');
+        }
+        
     };
     return (
         <div className="button" id={id} onClick={handleItemClick}>

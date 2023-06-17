@@ -3,6 +3,7 @@
   "productName": "servermc",
   "version": "1.0.0",
   "description": "Manage multiple Minecraft server instances with a simple, powerful GUI",
+  "license": "MIT",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -16,7 +17,6 @@
     "name": "JovannMC",
     "email": "45893380+JovannMC@users.noreply.github.com"
   },
-  "license": "MIT",
   "devDependencies": {
     "@electron-forge/cli": "^6.2.1",
     "@electron-forge/maker-deb": "^6.2.1",
