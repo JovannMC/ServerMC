@@ -19,7 +19,7 @@ function Button({ text, icon, id }: ButtonProps) {
             console.log('Clicked on', icon);
             ipcRenderer.send(icon.toLowerCase() + '-window');
         }
-        
+
     };
     return (
         <div className="button" id={id} onClick={handleItemClick}>
@@ -41,18 +41,18 @@ function FolderItem({ text, icon }: FolderItemProps) {
     const [previousItem, setPreviousItem] = useState<boolean | null>(null);
 
     const handleItemClick = () => {
-    if (document.querySelector('.folder-item.selected') === null) {
-        setPreviousItem(document.querySelector('.folder-item.selected') !== null);
-    }
+        if (document.querySelector('.folder-item.selected') === null) {
+            setPreviousItem(document.querySelector('.folder-item.selected') !== null);
+        }
 
-    if (!isSelected) {
-        setIsSelected(true);
-    }
+        if (!isSelected) {
+            setIsSelected(true);
+        }
 
-    if (previousItem !== null) {
-        document.getElementsByClassName('folder-item selected')[0].classList.remove('selected');
-        setIsSelected(true);
-    }
+        if (previousItem !== null) {
+            document.getElementsByClassName('folder-item selected')[0].classList.remove('selected');
+            setIsSelected(true);
+        }
     };
 
 
@@ -128,7 +128,7 @@ function App() {
                 <div className="infobar-start">
                     <div className="infobar-server">
                         <div className="infobar-server-icon">
-                            <img src="./static/images/minecraft.svg" alt="Minecraft logo"/>
+                            <img src="./static/images/minecraft.svg" alt="Minecraft logo" />
                         </div>
                         <div className="infobar-server-info">
                             <div className="infobar-server-name">Lorem ipsum dolor sit amet</div>

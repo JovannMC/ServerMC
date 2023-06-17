@@ -224,33 +224,3 @@
 .infobar-server-version {
   font-size: 14px;
 }
-
-.infobar-controls .button {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 6px 10px 6px 5px;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.infobar-controls .button:hover {
-  background-color: #ccc;
-}
-
-.infobar-controls .button-icon {
-  margin-right: 15px;
-  width: 15px;
-  height: 15px;
-  display: flex;
-  align-items: center;
-}
-
-.infobar-controls img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}

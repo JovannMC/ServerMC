@@ -100,6 +100,7 @@ const CombinedField: React.FC<CombinedFieldProps> = ({ options, onSelect, defaul
 };
 
 function GeneralSection() {
+  // TODO: change these to not be hardcoded of course, grab from server
   const serverSoftware = ['Vanilla', 'Spigot', 'Paper', 'Forge', 'Fabric'];
   const versions = ['1.20.1', '1.20', '1.19.4', '1.19.3', '1.19.2', '1.19.1', '1.19', '1.18.2', '1.18.1', '1.18', '1.17.1', '1.17', '1.16.5', '1.16.4', '1.16.3', '1.16.2', '1.16.1', '1.16', '1.15.2', '1.15.1', '1.15', '1.14.4', '1.14.3', '1.14.2', '1.14.1', '1.14', '1.13.2', '1.13.1', '1.13', '1.12.2', '1.12.1', '1.12', '1.11.2', '1.11.1', '1.11', '1.10.2', '1.10.1', '1.10', '1.9.4', '1.9.3', '1.9.3', '1.9.2', '1.9.1', '1.9', '1.8.9'];
   const groups = ['Default', 'Group 1', 'Group 2', 'Group 3'];
@@ -158,7 +159,7 @@ function GeneralSection() {
       </div>
       <div className='server-info'>
         <div className='server-name'>
-          <p>Name:</p>
+          Name:
           <input type="text" placeholder="Server Name" />
         </div>
         <div className='server-group'>
@@ -206,47 +207,59 @@ function GeneralSection() {
         </div>
       </div>
     </div>
+  );
+}
 
+function SectionBar() {
+  return (
+    <div className='sectionbar'>
+      <div className='section'>
+        <div className='section-icon'>
+          <img src="./static/images/question.svg" alt="instance" />
+        </div>
+        <div className='section-text'>
+          General
+        </div>
+      </div>
+      <div className='section'>
+        <div className='section-icon'>
+          <img src="./static/images/question.svg" alt="instance" />
+        </div>
+        <div className='section-text'>
+          Options
+        </div>
+      </div>
+      <div className='section'>
+        <div className='section-icon'>
+          <img src="./static/images/question.svg" alt="instance" />
+        </div>
+        <div className='section-text'>
+          Plugins/Mods
+        </div>
+      </div>
+      <div className='section'>
+        <div className='section-icon'>
+          <img src="./static/images/question.svg" alt="instance" />
+        </div>
+        <div className='section-text'>
+          Advanced
+        </div>
+      </div>
+      <div className='sectionbar-right'>
+        <div className='instance-controls'>
+          <div className='instance-control'>
+            <Button text='Create' icon='question'></Button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
 function CreateInstanceWindow() {
   return (
     <div className="App">
-      <div className='sectionbar'>
-        <div className='section'>
-          <div className='section-icon'>
-            <img src="./static/images/question.svg" alt="instance" />
-          </div>
-          <div className='section-text'>
-            General
-          </div>
-        </div>
-        <div className='section'>
-          <div className='section-icon'>
-            <img src="./static/images/question.svg" alt="instance" />
-          </div>
-          <div className='section-text'>
-            Configuration
-          </div>
-        </div>
-        <div className='section'>
-          <div className='section-icon'>
-            <img src="./static/images/question.svg" alt="instance" />
-          </div>
-          <div className='section-text'>
-            Plugins/Mods
-          </div>
-        </div>
-        <div className='section'>
-          <div className='section-icon'>
-            <img src="./static/images/question.svg" alt="instance" />
-          </div>
-          <div className='section-text'>
-            Advanced
-          </div>
-        </div>
-      </div>
+      <SectionBar></SectionBar>
 
       <GeneralSection></GeneralSection>
     </div>

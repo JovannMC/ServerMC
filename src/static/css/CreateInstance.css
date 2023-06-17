@@ -30,6 +30,13 @@
   align-items: center;
 }
 
+.sectionbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 10px;
+}
+
 .sectionbar .section {
   display: flex;
   align-items: center;
@@ -44,7 +51,7 @@
 }
 
 .sectionbar .section .section-icon {
-  width: 30px;
+  width: 20px;
   height: 30px;
   display: flex;
   justify-content: center;
@@ -53,8 +60,8 @@
 }
 
 .sectionbar .section .section-icon img {
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 15px;
 }
 
 .sectionbar .section .section-text {
@@ -95,6 +102,7 @@
   gap: 10px;
   font-size: 22px;
   font-weight: 400;
+  margin-top: 40px;
 }
 
 .server-info .server-group,
