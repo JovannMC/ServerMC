@@ -1,8 +1,6 @@
 import '../static/css/CreateInstance.css';
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { useState, useEffect } from 'react';
-import { ipcRenderer, BrowserWindow, ipcMain } from 'electron';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -25,32 +23,6 @@ function Button({ text, icon, id }: ButtonProps) {
       <div className="button-text">{text}</div>
     </div>
   );
-}
-
-function Separator() {
-  return <div className="separator"></div>;
-}
-
-interface SectionItemProps {
-  text: string;
-  icon: string;
-}
-
-function SectionItem({ text, icon }: SectionItemProps) {
-
-  const handleItemClick = () => {
-    // Implement your click logic here
-    console.log('Clicked on', text);
-  };
-
-  const handleItemDoubleClick = () => {
-    // Implement your double-click logic here
-    console.log('Double-clicked on', text);
-  };
-
-  const handleDocumentClick = () => {
-    // Implement your click logic here
-  };
 }
 
 interface CombinedFieldProps {
@@ -262,9 +234,6 @@ function OptionsSection() {
     setOptions(updatedOptions);
     console.log("updated option " + updatedOptions[index].label + ": " + updatedOptions[index].value)
   };
-
-
-  const handleSelect = (selectedOption: string) => console.log(selectedOption);
 
   return (
     <div className="options">
