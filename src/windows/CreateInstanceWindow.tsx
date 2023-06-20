@@ -15,7 +15,7 @@ interface ButtonProps {
 function Button({ text, icon, id }: ButtonProps) {
   const handleItemClick = () => {
     // Implement your click logic here
-    ipcRenderer.send(text.toLowerCase() + '-createInstance')
+    console.log('Clicked on', text);
   };
   return (
     <div className="button" id={id} onClick={handleItemClick}>
@@ -303,8 +303,25 @@ function OptionsSection() {
   );
 }
 
+function PluginsModsSection() {
+  return (
+    <div className='mods'>
+      <p>Coming soon!</p>
+    </div>
+  )
+}
+
+function AdvancedSection() {
+  return (
+    <div className='advanced'>
+      <p>Coming soon!</p>
+    </div>
+  )
+}
+
 function SectionBar({ activeSection, onSectionChange }) {
   const handleSectionClick = (section) => {
+    console.log("Section clicked: " + section);
     onSectionChange(section);
   };
 
@@ -345,7 +362,7 @@ function SectionBar({ activeSection, onSectionChange }) {
       <div className='sectionbar-right'>
         <div className='instance-controls'>
           <div className='instance-control'>
-            <Button text='Create' icon='question' onClick={() => handleSectionClick('Create')} />
+            <Button text='Create' icon='question'/>
           </div>
         </div>
       </div>
@@ -368,10 +385,10 @@ function CreateInstanceWindow() {
         return <GeneralSection />;
       case 'Options':
         return <OptionsSection />;
-      /*case 'Plugins/Mods':
+      case 'Plugins/Mods':
         return <PluginsModsSection />;
       case 'Advanced':
-        return <AdvancedSection />;*/
+        return <AdvancedSection />;
       default:
         return null;
     }

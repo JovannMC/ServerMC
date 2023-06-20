@@ -350,3 +350,15 @@
   font-size: 16px;
   width: 150px;
 }
+
+.mods, .advanced {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.mods p, .advanced p {
+  font-size: 24px;
+  font-weight: bold;
+}
