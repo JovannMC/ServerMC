@@ -70,6 +70,12 @@
 }
 
 /* 
+
+    General section
+
+*/
+
+/* 
     Server info
 */
 
@@ -195,7 +201,6 @@
   font-size: 16px;
 }
 
-/* Optional: Add some styling to highlight the selected option */
 .server-software select:focus {
   outline: none;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
@@ -240,4 +245,108 @@
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+/*
+
+    Options Section
+
+*/
+
+.options {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-top: 40px;
+  flex-grow: 1;
+}
+
+.options-text {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.options-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+  gap: 10px 40px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.option-text {
+  font-size: 16px;
+}
+
+.option-switch .switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+}
+
+.option-switch .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.option-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.option-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.option-switch input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+.option-switch input:focus + .slider {
+  box-shadow: 0 0 1px #4CAF50;
+}
+
+.option-switch input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+.option-switch .slider.round {
+  border-radius: 24px;
+}
+
+.option-switch .slider.round:before {
+  border-radius: 50%;
+}
+
+.option-input input[type="text"] {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 150px;
 }

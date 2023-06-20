@@ -102,7 +102,7 @@ const CombinedField: React.FC<CombinedFieldProps> = ({ options, onSelect, defaul
 function GeneralSection() {
   // TODO: change these to not be hardcoded of course, grab from server
   const serverSoftware = ['Vanilla', 'Spigot', 'Paper', 'Forge', 'Fabric'];
-  const versions = ['1.20.1', '1.20', '1.19.4', '1.19.3', '1.19.2', '1.19.1', '1.19', '1.18.2', '1.18.1', '1.18', '1.17.1', '1.17', '1.16.5', '1.16.4', '1.16.3', '1.16.2', '1.16.1', '1.16', '1.15.2', '1.15.1', '1.15', '1.14.4', '1.14.3', '1.14.2', '1.14.1', '1.14', '1.13.2', '1.13.1', '1.13', '1.12.2', '1.12.1', '1.12', '1.11.2', '1.11.1', '1.11', '1.10.2', '1.10.1', '1.10', '1.9.4', '1.9.3', '1.9.3', '1.9.2', '1.9.1', '1.9', '1.8.9'];
+  const versions = ['1.20.1', '1.20', '1.19.4', '1.19.3', '1.19.2', '1.19.1', '1.19', '1.18.2', '1.18.1', '1.18', '1.17.1', '1.17', '1.16.5', '1.16.4', '1.16.3', '1.16.2', '1.16.1', '1.16', '1.15.2', '1.15.1', '1.15', '1.14.4', '1.14.3', '1.14.2', '1.14.1', '1.14', '1.13.2', '1.13.1', '1.13', '1.12.2', '1.12.1', '1.12', '1.11.2', '1.11.1', '1.11', '1.10.2', '1.10.1', '1.10', '1.9.4', '1.9.3', '1.9.2', '1.9.1', '1.9', '1.8.9'];
   const groups = ['Default', 'Group 1', 'Group 2', 'Group 3'];
   const profiles = ['No profile', 'Profile 1', 'Profile 2', 'Profile 3'];
 
@@ -210,10 +210,107 @@ function GeneralSection() {
   );
 }
 
-function SectionBar() {
+function OptionsSection() {
+  const [options, setOptions] = useState([
+    { label: 'Online mode', type: 'checkbox', checked: true },
+    { label: 'Enable query', type: 'checkbox', checked: false },
+    { label: 'Enable rcon', type: 'checkbox', checked: false },
+    { label: 'Force gamemode', type: 'checkbox', checked: false },
+    { label: 'Hardcore', type: 'checkbox', checked: false },
+    { label: 'White-list', type: 'checkbox', checked: false },
+    { label: 'Spawn animals', type: 'checkbox', checked: true },
+    { label: 'Spawn monsters', type: 'checkbox', checked: true },
+    { label: 'Generate structures', type: 'checkbox', checked: true },
+    { label: 'Snooper enabled', type: 'checkbox', checked: false },
+    { label: 'Enable command block', type: 'checkbox', checked: false },
+    { label: 'Announce player achievements', type: 'checkbox', checked: true },
+    { label: 'PVP', type: 'checkbox', checked: true },
+    { label: 'Enable flight', type: 'checkbox', checked: false },
+    { label: 'Spawn protection', type: 'checkbox', checked: true },
+    { label: 'Enable status', type: 'checkbox', checked: true },
+    { label: 'Max build height', type: 'text', value: '256' },
+    { label: 'Max players', type: 'text', value: '20' },
+    { label: 'View distance', type: 'text', value: '10' },
+    { label: 'Max tick time', type: 'text', value: '60000' },
+    { label: 'Max idle time', type: 'text', value: '0' },
+    { label: 'Difficulty', type: 'text', value: 'easy' },
+    { label: 'Level seed', type: 'text', value: '' },
+    { label: 'Level type', type: 'text', value: 'minecraft:normal' },
+    { label: 'World size', type: 'text', value: '29999984' },
+    { label: 'World type', type: 'text', value: '' },
+    { label: 'Generator settings', type: 'text', value: '{}' },
+    { label: 'Allow nether', type: 'checkbox', checked: true },
+    { label: 'Allow end', type: 'checkbox', checked: true },
+    { label: 'Enable snooper', type: 'checkbox', checked: false },
+    { label: 'Resource pack', type: 'text', value: '' },
+    { label: 'Resource pack sha1', type: 'text', value: '' },
+  ]);
+
+
+  // Event handler for checkbox options
+  const handleCheckboxChange = (index) => {
+    const updatedOptions = [...options];
+    updatedOptions[index].checked = !updatedOptions[index].checked;
+    setOptions(updatedOptions);
+    console.log("updated option " + updatedOptions[index].label + ": " + updatedOptions[index].checked)
+  };
+
+  // Event handler for text input options
+  const handleTextChange = (index, value) => {
+    const updatedOptions = [...options];
+    updatedOptions[index].value = value;
+    setOptions(updatedOptions);
+    console.log("updated option " + updatedOptions[index].label + ": " + updatedOptions[index].value)
+  };
+
+
+  const handleSelect = (selectedOption: string) => console.log(selectedOption);
+
+  return (
+    <div className="options">
+      <h2 className="options-text">Options</h2>
+      <div className="options-list">
+        {options.map((option, index) => (
+          <div className="option" key={index}>
+            <label className="option-text">
+              {option.label}
+            </label>
+            {option.type === 'checkbox' && (
+              <div className="option-switch">
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={option.checked}
+                    onChange={() => handleCheckboxChange(index)}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+            )}
+            {option.type === 'text' && (
+              <div className="option-input">
+                <input
+                  type="text"
+                  value={option.value}
+                  onChange={(event) => handleTextChange(index, event.target.value)}
+                />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SectionBar({ activeSection, onSectionChange }) {
+  const handleSectionClick = (section) => {
+    onSectionChange(section);
+  };
+
   return (
     <div className='sectionbar'>
-      <div className='section'>
+      <div className={`section ${activeSection === 'General' ? 'active' : ''}`} onClick={() => handleSectionClick('General')}>
         <div className='section-icon'>
           <img src="./static/images/question.svg" alt="instance" />
         </div>
@@ -221,7 +318,7 @@ function SectionBar() {
           General
         </div>
       </div>
-      <div className='section'>
+      <div className={`section ${activeSection === 'Options' ? 'active' : ''}`} onClick={() => handleSectionClick('Options')}>
         <div className='section-icon'>
           <img src="./static/images/question.svg" alt="instance" />
         </div>
@@ -229,7 +326,7 @@ function SectionBar() {
           Options
         </div>
       </div>
-      <div className='section'>
+      <div className={`section ${activeSection === 'Plugins/Mods' ? 'active' : ''}`} onClick={() => handleSectionClick('Plugins/Mods')}>
         <div className='section-icon'>
           <img src="./static/images/question.svg" alt="instance" />
         </div>
@@ -237,7 +334,7 @@ function SectionBar() {
           Plugins/Mods
         </div>
       </div>
-      <div className='section'>
+      <div className={`section ${activeSection === 'Advanced' ? 'active' : ''}`} onClick={() => handleSectionClick('Advanced')}>
         <div className='section-icon'>
           <img src="./static/images/question.svg" alt="instance" />
         </div>
@@ -248,7 +345,7 @@ function SectionBar() {
       <div className='sectionbar-right'>
         <div className='instance-controls'>
           <div className='instance-control'>
-            <Button text='Create' icon='question'></Button>
+            <Button text='Create' icon='question' onClick={() => handleSectionClick('Create')} />
           </div>
         </div>
       </div>
@@ -256,15 +353,38 @@ function SectionBar() {
   );
 }
 
+
 function CreateInstanceWindow() {
+  const [activeSection, setActiveSection] = useState('General');
+
+  const handleSectionChange = (section) => {
+    setActiveSection(section);
+  };
+
+  // Render the appropriate section based on the activeSection state
+  const renderSection = () => {
+    switch (activeSection) {
+      case 'General':
+        return <GeneralSection />;
+      case 'Options':
+        return <OptionsSection />;
+      /*case 'Plugins/Mods':
+        return <PluginsModsSection />;
+      case 'Advanced':
+        return <AdvancedSection />;*/
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="App">
-      <SectionBar></SectionBar>
-
-      <GeneralSection></GeneralSection>
+      <SectionBar activeSection={activeSection} onSectionChange={handleSectionChange} />
+      {renderSection()}
     </div>
   );
 }
+
 
 root.render(
   <React.StrictMode>
