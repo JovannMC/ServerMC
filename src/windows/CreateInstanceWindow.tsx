@@ -1,29 +1,12 @@
+import { ipcRenderer } from 'electron';
 import '../static/css/CreateInstance.css';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { string } from 'prop-types';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-interface ButtonProps {
-  text?: string;
-  icon?: string;
-  id?: string;
-}
-
-function Button({ text, icon, id }: ButtonProps) {
-  const handleItemClick = () => {
-    // Implement your click logic here
-    console.log('Clicked on', text);
-  };
-  return (
-    <div className="button" id={id} onClick={handleItemClick}>
-      <div className="button-icon">
-        <img src={`./static/images/${icon}.svg`} alt={icon} />
-      </div>
-      <div className="button-text">{text}</div>
-    </div>
-  );
-}
+const settings: Record<string, string> = {};
 
 interface CombinedFieldProps {
   options: string[]; // Array of available options
@@ -78,7 +61,10 @@ function GeneralSection() {
   const groups = ['Default', 'Group 1', 'Group 2', 'Group 3'];
   const profiles = ['No profile', 'Profile 1', 'Profile 2', 'Profile 3'];
 
-  const handleSelect = (selectedOption: string) => console.log(selectedOption);
+  const changeSetting = (optionName: string, selectedOption: string) => {
+    settings[optionName] = selectedOption;
+  }
+
   const handleVersionChange = (selectedVersion: string) => {
     console.log(selectedVersion);
 
@@ -86,22 +72,32 @@ function GeneralSection() {
     versionElements.forEach((element) => {
       if (element.textContent === selectedVersion) {
         element.classList.add('selected');
+        changeSetting('version', selectedVersion);
       } else {
         element.classList.remove('selected');
       }
     });
   };
 
-
-  const SliderWithTextBox = () => {
+  const SliderWithTextBox = ({ settingName }) => {
     const [value, setValue] = useState(50);
 
     const handleSliderChange = (event) => {
       setValue(Number(event.target.value));
+      if (settingName == 'CPU') {
+        changeSetting('cpu', event.target.value);
+      } else if (settingName == 'RAM') {
+        changeSetting('ram', event.target.value);
+      }
     };
 
     const handleTextBoxChange = (event) => {
       setValue(Number(event.target.value));
+      if (settingName == 'CPU') {
+        changeSetting('cpu', settingValue);
+      } else if (settingName == 'RAM') {
+        changeSetting('ram', settingValue);
+      }
     };
 
     return (
@@ -136,11 +132,11 @@ function GeneralSection() {
         </div>
         <div className='server-group'>
           in group
-          <CombinedField options={groups} onSelect={handleSelect} defaultEntry='Default'></CombinedField>
+          <CombinedField options={groups} onSelect={(value) => (changeSetting('group', value))} defaultEntry='Default'></CombinedField>
         </div>
         <div className='server-profile'>
           based on
-          <CombinedField options={profiles} onSelect={handleSelect} defaultEntry='No profile'></CombinedField>
+          <CombinedField options={profiles} onSelect={(value) => (changeSetting('group', value))} defaultEntry='No profile'></CombinedField>
         </div>
         <div className="server-software">
           <label htmlFor="server-software-select">Server software:</label>
@@ -166,15 +162,15 @@ function GeneralSection() {
         <div className='allocation-settings'>
           <div className='setting'>
             <div className='allocation-settings-text'>CPU</div>
-            <SliderWithTextBox />
+            <SliderWithTextBox settingName='CPU'/>
           </div>
           <div className='setting'>
             <div className='allocation-settings-text'>RAM</div>
-            <SliderWithTextBox />
+            <SliderWithTextBox settingName='RAM'/>
           </div>
           <div className='setting'>
             <div className='allocation-settings-text'>Port</div>
-            <input type="text" placeholder="25565" />
+            <input type="text" placeholder="25565" onChange={(value) => changeSetting('port', event.target.value)}/>
           </div>
         </div>
       </div>
@@ -218,12 +214,16 @@ function OptionsSection() {
     { label: 'Resource pack sha1', type: 'text', value: '' },
   ]);
 
+  const changeSetting = ( setting, value ) => {
+    settings[setting] = value;
+  };
 
   // Event handler for checkbox options
   const handleCheckboxChange = (index) => {
     const updatedOptions = [...options];
     updatedOptions[index].checked = !updatedOptions[index].checked;
     setOptions(updatedOptions);
+    changeSetting(updatedOptions[index].label, updatedOptions[index].checked);
     console.log("updated option " + updatedOptions[index].label + ": " + updatedOptions[index].checked)
   };
 
@@ -232,6 +232,7 @@ function OptionsSection() {
     const updatedOptions = [...options];
     updatedOptions[index].value = value;
     setOptions(updatedOptions);
+    changeSetting(updatedOptions[index].label, updatedOptions[index].value);
     console.log("updated option " + updatedOptions[index].label + ": " + updatedOptions[index].value)
   };
 
@@ -294,6 +295,12 @@ function SectionBar({ activeSection, onSectionChange }) {
     onSectionChange(section);
   };
 
+  const handleCreateClick = () => {
+    // Implement your click logic here
+    ipcRenderer.send('create-createInstance', settings)
+    console.log('Clicked on Create');
+  };
+
   return (
     <div className='sectionbar'>
       <div className={`section ${activeSection === 'General' ? 'active' : ''}`} onClick={() => handleSectionClick('General')}>
@@ -331,7 +338,12 @@ function SectionBar({ activeSection, onSectionChange }) {
       <div className='sectionbar-right'>
         <div className='instance-controls'>
           <div className='instance-control'>
-            <Button text='Create' icon='question'/>
+            <div className="button" onClick={handleCreateClick}>
+              <div className="button-icon">
+                <img src={`./static/images/question.svg`} alt='question' />
+              </div>
+              <div className="button-text">Create</div>
+            </div>
           </div>
         </div>
       </div>
