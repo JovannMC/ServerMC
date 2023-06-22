@@ -8,6 +8,9 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 declare const CREATE_INSTANCE_WINDOW_WEBPACK_ENTRY: string;
 declare const CREATE_INSTANCE_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
+let mainWindow: BrowserWindow;
+let createInstanceWindow: BrowserWindow;
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -15,7 +18,8 @@ if (require('electron-squirrel-startup')) {
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
+    title: 'ServerMC',
     width: 800,
     height: 600,
     webPreferences: {
@@ -38,7 +42,8 @@ const createWindow = () => {
 
 ipcMain.on('create-window', () => {
   console.log('ipc received: create-window');
-  const createInstanceWindow = new BrowserWindow({
+  createInstanceWindow = new BrowserWindow({
+      title: 'Create Instance',
       width: 700,
       height: 600,
       webPreferences: {
@@ -62,6 +67,8 @@ ipcMain.on('create-window', () => {
 ipcMain.on('create-createInstance', (event, data) => {
   console.log('ipc received: create-createInstance');
   console.log(data);
+  // close createInstanceWindow
+  createInstanceWindow.close();
 });
 
 // This method will be called when Electron has finished

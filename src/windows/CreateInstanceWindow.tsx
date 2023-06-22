@@ -2,7 +2,6 @@ import { ipcRenderer } from 'electron';
 import '../static/css/CreateInstance.css';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { string } from 'prop-types';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
