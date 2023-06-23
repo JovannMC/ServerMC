@@ -264,6 +264,7 @@ function GeneralSection({ settings, setSettings }) {
 
 function OptionsSection({ settings, setSettings }) {
   // TODO: try not to hardcode all of this crap here lol
+  // TODO: also have settings for other server software
   const [options, setOptions] = useState([
     { label: 'MOTD', type: 'text', value: 'A Minecraft Server' },
     { label: 'Gamemode', type: 'text', value: 'survival' },
@@ -493,7 +494,6 @@ const CreateInstanceWindow = () => {
     </div>
   );
 };
-
 
 root.render(
   <React.StrictMode>

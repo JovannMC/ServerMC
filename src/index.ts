@@ -69,27 +69,155 @@ ipcMain.on("create-window", () => {
 });
 
 // Listen for instance creation
+// FIXME: solve issue where entries are placed at bottom and doesn't overwrite existing entries
 ipcMain.on("create-createInstance", (event, data) => {
   console.log("ipc received: create-createInstance");
   console.log(data);
 
+  const serverName = data["general"]["name"];
+  const serverPath = path.join(".", "servers", serverName);
   const serverSettings = JSON.stringify(data, null, 2);
-  const serverName = data['general']['name'];
+  const servermcCfgPath = path.join(serverPath, "servermc.cfg");
+  const serverPropertiesFilePath = path.join(serverPath, "server.properties");
+  const defaultServerPropertiesFilePath = path.join(
+    __dirname,
+    "static",
+    "configs",
+    "server.properties"
+  );
 
   // Create server folder
-  const serverPath = path.join('.', 'servers', serverName);
   fs.mkdirSync(serverPath, { recursive: true });
 
   // Create servermc.cfg
-  const optionsFilePath = path.join(serverPath, 'servermc.cfg');
-  fs.writeFile(optionsFilePath, serverSettings, (err) => {
+  fs.writeFile(servermcCfgPath, serverSettings, (err) => {
     if (err) {
-      console.error('Error writing file:', err);
+      console.error("Error writing servermc.cfg:", err);
     } else {
-      console.log('Settings file written successfully!');
+      console.log("servermc.cfg written successfully!");
     }
   });
-    
+
+  // Create server.properties
+  fs.writeFile(
+    serverPropertiesFilePath,
+    defaultServerPropertiesFilePath,
+    (err) => {
+      if (err) {
+        console.error("Error writing server.properties:", err);
+      } else {
+        console.log("server.properties written successfully!");
+      }
+    }
+  );
+
+  // Create eula.txt
+  fs.writeFile(path.join(serverPath, "eula.txt"), "eula=true", (err) => {
+    if (err) {
+      console.error("Error writing eula.txt:", err);
+    } else {
+      console.log("eula.txt written successfully!");
+    }
+  });
+
+  // Helper function to convert settings object to properties string
+  function convertToPropertiesString(settings) {
+    let propertiesString = "";
+    for (const key in settings) {
+      const value = settings[key];
+      const formattedKey = key.toLowerCase().replace(/ /g, "-"); // Convert key to lowercase and replace spaces with dashes
+      if (typeof value === "object") {
+        // Handle object properties
+        propertiesString += `${formattedKey}\n`;
+        for (const subKey in value) {
+          propertiesString += `  ${subKey}=${value[subKey]}\n`;
+        }
+      } else {
+        // Handle other properties
+        propertiesString += `${formattedKey}=${value}\n`;
+      }
+    }
+    return propertiesString;
+  }
+
+  // Helper function to parse properties file into an object
+  function parsePropertiesFile(fileContent) {
+    const properties = {};
+    if (!fileContent) {
+      console.error("Empty file content");
+      return properties;
+    }
+    const lines = fileContent.split("\n");
+    for (const line of lines) {
+      if (line && line.trim() !== "" && !line.startsWith("#")) {
+        const [key, value] = line.split("=");
+        if (!key || !value) {
+          console.error("Invalid line:", line);
+          continue;
+        }
+        const formattedKey = key.toLowerCase().replace(/-/g, " "); // Convert key to lowercase and replace dashes with spaces
+        properties[formattedKey.trim()] = value.trim();
+      }
+    }
+    return properties;
+  }
+
+  // Read the contents of the default server.properties file
+  fs.readFile(
+    defaultServerPropertiesFilePath,
+    "utf8",
+    (err, defaultFileContent) => {
+      if (err) {
+        console.error("Error reading default server.properties file:", err);
+        return;
+      }
+
+      console.log("Default File Content:", defaultFileContent); // Log the default file content
+
+      // Read the contents of the existing server.properties file
+      fs.readFile(
+        serverPropertiesFilePath,
+        "utf8",
+        (err, existingFileContent) => {
+          if (err) {
+            console.error("Error reading server.properties file:", err);
+            return;
+          }
+
+          console.log("Existing File Content:", existingFileContent); // Log the existing file content
+
+          // Parse the contents into objects
+          const existingSettings = parsePropertiesFile(existingFileContent);
+          const defaultSettings = parsePropertiesFile(defaultFileContent);
+
+          // Extract the "options" section from the data object
+          const options = data["options"];
+
+          // Merge the options with the existing settings
+          const mergedSettings = {
+            ...defaultSettings,
+            ...existingSettings,
+            ...options,
+          };
+
+          // Convert the merged settings back to a string
+          const settingsText = convertToPropertiesString(mergedSettings);
+
+          console.log("Merged Settings:", mergedSettings); // Log the merged settings
+
+          // Write the updated settings to the server.properties file
+          fs.writeFile(serverPropertiesFilePath, settingsText, (err) => {
+            if (err) {
+              console.error("Error writing to server.properties file:", err);
+            } else {
+              console.log("server.properties file updated successfully!");
+            }
+          });
+        }
+      );
+    }
+  );
+
   // close createInstanceWindow
   //createInstanceWindow.close();
 });
