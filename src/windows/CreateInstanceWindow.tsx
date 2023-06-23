@@ -180,7 +180,7 @@ function GeneralSection({ settings, setSettings }) {
       <div className='server-info'>
         <div className='server-name'>
           Name:
-          <input type="text" placeholder="Server Name" />
+          <input type="text" placeholder="Server Name" onChange={(value) => changeSetting('name', event.target.value)} />
         </div>
         <div className='server-group'>
           in group
@@ -299,24 +299,6 @@ function OptionsSection({ settings, setSettings }) {
     console.log(updatedOptions[index].label + ": " + updatedOptions[index].value);
   };
 
-  const checkCheckbox = (label, index) => {
-    if (combinedSettings.options[label] === undefined) {
-      console.log("combinedSettings.options[label]] is undefined")
-      return options[index].checked;
-    } else {
-      console.log("combinedSettings.options[label]] is defined")
-      return combinedSettings.options[label].checked;
-    }
-  }
-
-  const checkText = (label, index) => {
-    if (settings[label] === undefined) {
-      return options[index].value;
-    } else {
-      return combinedSettings.options[label].value;
-    }
-  }
-
   return (
     <div className="options">
       <h2 className="options-text">Options</h2>
@@ -331,7 +313,7 @@ function OptionsSection({ settings, setSettings }) {
                 <label className="switch">
                   <input
                     type="checkbox"
-                    checked={checkCheckbox(option.label, index)}
+                    checked={option.checked}
                     onChange={() => handleCheckboxChange(index)}
                   />
                   <span className="slider round"></span>
@@ -342,7 +324,7 @@ function OptionsSection({ settings, setSettings }) {
               <div className="option-input">
                 <input
                   type="text"
-                  value={checkText(option.label, index)}
+                  value={option.value}
                   onChange={(event) => handleTextChange(index, event.target.value)}
                 />
               </div>
@@ -446,12 +428,18 @@ const CreateInstanceWindow = () => {
   return (
     <div>
       <SectionBar activeSection={activeSection} onSectionChange={handleSectionChange} />
-      {activeSection === 'General' && (
+      <div style={{ display: activeSection === 'General' ? 'block' : 'none' }}>
         <GeneralSection settings={generalSettings} setSettings={setGeneralSettings} />
-      )}
-      {activeSection === 'Options' && <OptionsSection settings={optionsSettings} setSettings={setOptionsSettings} />}
-      {activeSection === 'Plugins/Mods' && <PluginsModsSection settings={pluginsModsSettings} setSettings={setPluginsModsSettings} />}
-      {activeSection === 'Advanced' && <AdvancedSection settings={advancedSettings} setSettings={setAdvancedSettings} />}
+      </div>
+      <div style={{ display: activeSection === 'Options' ? 'block' : 'none' }}>
+        <OptionsSection settings={optionsSettings} setSettings={setOptionsSettings} />
+      </div>
+      <div style={{ display: activeSection === 'Plugins/Mods' ? 'block' : 'none' }}>
+        <PluginsModsSection settings={pluginsModsSettings} setSettings={setPluginsModsSettings} />
+      </div>
+      <div style={{ display: activeSection === 'Advanced' ? 'block' : 'none' }}>
+        <AdvancedSection settings={advancedSettings} setSettings={setAdvancedSettings} />
+      </div>
     </div>
   );
 };
