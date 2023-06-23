@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 import '../static/css/CreateInstance.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import os from 'os';
 
@@ -20,11 +20,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 interface CombinedFieldProps {
   options: string[];
   onSelect: (selectedOption: string) => void;
-  defaultEntry: string;
+  placeholder: string;
 }
 
-const CombinedField: React.FC<CombinedFieldProps> = ({ options, onSelect, defaultEntry }) => {
-  const [inputValue, setInputValue] = useState('');
+const CombinedField: React.FC<CombinedFieldProps> = ({
+  options,
+  onSelect,
+  placeholder,
+}) => {
+  const [inputValue, setInputValue] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,18 +46,51 @@ const CombinedField: React.FC<CombinedFieldProps> = ({ options, onSelect, defaul
     option.toLowerCase().includes(inputValue.toLowerCase())
   );
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest(".combined-field")) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div>
+    <div className="combined-field" style={{ position: "relative" }}>
       <input
         type="text"
-        value={defaultEntry}
+        placeholder={placeholder}
+        value={inputValue}
         onChange={handleInputChange}
       />
 
       {showDropdown && (
-        <div>
+        <div
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            zIndex: 1,
+            backgroundColor: "#fff",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+          }}
+        >
           {filteredOptions.map((option) => (
-            <div key={option} onClick={() => handleOptionSelect(option)}>
+            <div
+              key={option}
+              onClick={() => handleOptionSelect(option)}
+              style={{
+                padding: "8px",
+                cursor: "pointer",
+              }}
+            >
               {option}
             </div>
           ))}
@@ -62,6 +99,7 @@ const CombinedField: React.FC<CombinedFieldProps> = ({ options, onSelect, defaul
     </div>
   );
 };
+
 
 function GeneralSection({ settings, setSettings }) {
   // TODO: change these to not be hardcoded of course, grab from server
@@ -164,7 +202,6 @@ function GeneralSection({ settings, setSettings }) {
     }
   };
 
-
   return (
     <div className="section-content">
       <div className='server-icon'>
@@ -177,11 +214,11 @@ function GeneralSection({ settings, setSettings }) {
         </div>
         <div className='server-group'>
           in group
-          <CombinedField options={groups} onSelect={(value) => (changeSetting('group', value))} defaultEntry='Default'></CombinedField>
+          <CombinedField options={groups} onSelect={(value) => (changeSetting('group', value))} placeholder='Default'></CombinedField>
         </div>
         <div className='server-profile'>
           based on
-          <CombinedField options={profiles} onSelect={(value) => (changeSetting('group', value))} defaultEntry='No profile'></CombinedField>
+          <CombinedField options={profiles} onSelect={(value) => (changeSetting('profile', value))} placeholder='No profile'></CombinedField>
         </div>
         <div className="server-software">
           <label htmlFor="server-software-select">Server software:</label>

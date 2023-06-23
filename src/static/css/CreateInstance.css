@@ -121,6 +121,12 @@
   font-style: italic;
 }
 
+.server-info input {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .server-info .server-software {
   font-size: 22px;
   font-weight: 400;
