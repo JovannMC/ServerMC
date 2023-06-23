@@ -71,17 +71,10 @@ function GeneralSection({ settings, setSettings }) {
   const groups = ['Default', 'Group 1', 'Group 2', 'Group 3'];
   const profiles = ['No profile', 'Profile 1', 'Profile 2', 'Profile 3'];
 
-  const changeSetting = (optionName, selectedOption) => {
-    setSettings((prevSettings) => ({
-      ...prevSettings,
-      ['general']: {
-        ...prevSettings['general'],
-        [optionName]: selectedOption,
-      },
-    }));
+  const changeSetting = (optionName: string, selectedOption: string) => {
     combinedSettings.general[optionName] = selectedOption;
+    setSettings(combinedSettings);
   };
-
 
   const handleVersionChange = (selectedVersion: string) => {
     console.log(selectedVersion);
@@ -270,6 +263,7 @@ function OptionsSection({ settings, setSettings }) {
     { label: 'Resource pack sha1', type: 'text', value: '' },
   ]);
 
+  
   const changeSetting = (optionName, selectedOption) => {
     setSettings((prevSettings) => ({
       ...prevSettings,
