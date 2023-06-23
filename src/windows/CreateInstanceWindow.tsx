@@ -4,6 +4,17 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import os from 'os';
 
+let combinedSettings = {
+  general: {
+  },
+  options: {
+  },
+  pluginsMods: {
+  },
+  advanced: {
+  }
+};
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 interface CombinedFieldProps {
@@ -68,8 +79,9 @@ function GeneralSection({ settings, setSettings }) {
         [optionName]: selectedOption,
       },
     }));
+    combinedSettings.general[optionName] = selectedOption;
   };
-  
+
 
   const handleVersionChange = (selectedVersion: string) => {
     console.log(selectedVersion);
@@ -220,7 +232,7 @@ function GeneralSection({ settings, setSettings }) {
   );
 }
 
-function OptionsSection({ settings, setSettings}) {
+function OptionsSection({ settings, setSettings }) {
   // TODO: try not to hardcode all of this crap here lol
   const [options, setOptions] = useState([
     { label: 'Online mode', type: 'checkbox', checked: true },
@@ -238,6 +250,7 @@ function OptionsSection({ settings, setSettings}) {
     { label: 'PVP', type: 'checkbox', checked: true },
     { label: 'Enable flight', type: 'checkbox', checked: false },
     { label: 'Spawn protection', type: 'checkbox', checked: true },
+    { label: 'Spawn protection radius', type: 'text', value: '16' },
     { label: 'Enable status', type: 'checkbox', checked: true },
     { label: 'Max build height', type: 'text', value: '256' },
     { label: 'Max players', type: 'text', value: '20' },
@@ -260,19 +273,21 @@ function OptionsSection({ settings, setSettings}) {
   const changeSetting = (optionName, selectedOption) => {
     setSettings((prevSettings) => ({
       ...prevSettings,
-      ['options']: {
-        ...prevSettings['options'],
+      options: {
+        ...prevSettings.options,
         [optionName]: selectedOption,
       },
     }));
+    combinedSettings.options[optionName] = selectedOption;
   };
+
   // Event handler for checkbox options
   const handleCheckboxChange = (index) => {
     const updatedOptions = [...options];
     updatedOptions[index].checked = !updatedOptions[index].checked;
     setOptions(updatedOptions);
     changeSetting(updatedOptions[index].label, updatedOptions[index].checked);
-    console.log(updatedOptions[index].label + ": " + updatedOptions[index].checked)
+    console.log(updatedOptions[index].label + ": " + updatedOptions[index].checked);
   };
 
   // Event handler for text input options
@@ -281,8 +296,26 @@ function OptionsSection({ settings, setSettings}) {
     updatedOptions[index].value = value;
     setOptions(updatedOptions);
     changeSetting(updatedOptions[index].label, updatedOptions[index].value);
-    console.log(updatedOptions[index].label + ": " + updatedOptions[index].value)
+    console.log(updatedOptions[index].label + ": " + updatedOptions[index].value);
   };
+
+  const checkCheckbox = (label, index) => {
+    if (combinedSettings.options[label] === undefined) {
+      console.log("combinedSettings.options[label]] is undefined")
+      return options[index].checked;
+    } else {
+      console.log("combinedSettings.options[label]] is defined")
+      return combinedSettings.options[label].checked;
+    }
+  }
+
+  const checkText = (label, index) => {
+    if (settings[label] === undefined) {
+      return options[index].value;
+    } else {
+      return combinedSettings.options[label].value;
+    }
+  }
 
   return (
     <div className="options">
@@ -298,7 +331,7 @@ function OptionsSection({ settings, setSettings}) {
                 <label className="switch">
                   <input
                     type="checkbox"
-                    checked={settings[option.label] || option.checked}
+                    checked={checkCheckbox(option.label, index)}
                     onChange={() => handleCheckboxChange(index)}
                   />
                   <span className="slider round"></span>
@@ -309,7 +342,7 @@ function OptionsSection({ settings, setSettings}) {
               <div className="option-input">
                 <input
                   type="text"
-                  value={settings[option.label] || option.value}
+                  value={checkText(option.label, index)}
                   onChange={(event) => handleTextChange(index, event.target.value)}
                 />
               </div>
@@ -337,7 +370,7 @@ function AdvancedSection({ settings, changeSetting }) {
   )
 }
 
-function SectionBar({ activeSection, onSectionChange, settings }) {
+function SectionBar({ activeSection, onSectionChange }) {
   const handleSectionClick = (section) => {
     console.log("Section clicked: " + section);
     onSectionChange(section);
@@ -345,7 +378,7 @@ function SectionBar({ activeSection, onSectionChange, settings }) {
 
   const handleCreateClick = () => {
     // Implement your click logic here
-    ipcRenderer.send('create-createInstance', settings)
+    ipcRenderer.send('create-createInstance', combinedSettings)
     console.log('Clicked on Create');
   };
 
@@ -401,7 +434,10 @@ function SectionBar({ activeSection, onSectionChange, settings }) {
 
 const CreateInstanceWindow = () => {
   const [activeSection, setActiveSection] = useState('General');
-  const [settings, setSettings] = useState({});
+  const [generalSettings, setGeneralSettings] = useState({});
+  const [optionsSettings, setOptionsSettings] = useState({});
+  const [pluginsModsSettings, setPluginsModsSettings] = useState({});
+  const [advancedSettings, setAdvancedSettings] = useState({});
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
@@ -409,13 +445,13 @@ const CreateInstanceWindow = () => {
 
   return (
     <div>
-      <SectionBar activeSection={activeSection} onSectionChange={handleSectionChange} settings={settings} />
+      <SectionBar activeSection={activeSection} onSectionChange={handleSectionChange} />
       {activeSection === 'General' && (
-        <GeneralSection settings={settings} setSettings={setSettings} />
+        <GeneralSection settings={generalSettings} setSettings={setGeneralSettings} />
       )}
-      {activeSection === 'Options' && <OptionsSection settings={settings} setSettings={setSettings} />}
-      {activeSection === 'Plugins/Mods' && <PluginsModsSection settings={settings} setSettings={setSettings} />}
-      {activeSection === 'Advanced' && <AdvancedSection settings={settings} setSettings={setSettings} />}
+      {activeSection === 'Options' && <OptionsSection settings={optionsSettings} setSettings={setOptionsSettings} />}
+      {activeSection === 'Plugins/Mods' && <PluginsModsSection settings={pluginsModsSettings} setSettings={setPluginsModsSettings} />}
+      {activeSection === 'Advanced' && <AdvancedSection settings={advancedSettings} setSettings={setAdvancedSettings} />}
     </div>
   );
 };
