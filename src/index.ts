@@ -71,7 +71,7 @@ ipcMain.on("create-createInstance", (event, data) => {
   console.log("ipc received: create-createInstance");
   console.log(data);
   // close createInstanceWindow
-  createInstanceWindow.close();
+  //createInstanceWindow.close();
 });
 
 // This method will be called when Electron has finished

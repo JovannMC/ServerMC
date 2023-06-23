@@ -6,8 +6,6 @@ import os from 'os';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const settings: Record<string, string> = {};
-
 interface CombinedFieldProps {
   options: string[];
   onSelect: (selectedOption: string) => void;
@@ -54,7 +52,7 @@ const CombinedField: React.FC<CombinedFieldProps> = ({ options, onSelect, defaul
   );
 };
 
-function GeneralSection() {
+function GeneralSection({ settings, setSettings }) {
   // TODO: change these to not be hardcoded of course, grab from server
   // use MCUtils beta (when it releases) to grab server software and versions
   const serverSoftware = ['Vanilla', 'Spigot', 'Paper', 'Forge', 'Fabric'];
@@ -62,9 +60,16 @@ function GeneralSection() {
   const groups = ['Default', 'Group 1', 'Group 2', 'Group 3'];
   const profiles = ['No profile', 'Profile 1', 'Profile 2', 'Profile 3'];
 
-  const changeSetting = (optionName: string, selectedOption: string) => {
-    settings[optionName] = selectedOption;
-  }
+  const changeSetting = (optionName, selectedOption) => {
+    setSettings((prevSettings) => ({
+      ...prevSettings,
+      ['general']: {
+        ...prevSettings['general'],
+        [optionName]: selectedOption,
+      },
+    }));
+  };
+  
 
   const handleVersionChange = (selectedVersion: string) => {
     console.log(selectedVersion);
@@ -215,7 +220,7 @@ function GeneralSection() {
   );
 }
 
-function OptionsSection() {
+function OptionsSection({ settings, setSettings}) {
   // TODO: try not to hardcode all of this crap here lol
   const [options, setOptions] = useState([
     { label: 'Online mode', type: 'checkbox', checked: true },
@@ -252,17 +257,22 @@ function OptionsSection() {
     { label: 'Resource pack sha1', type: 'text', value: '' },
   ]);
 
-  const changeSetting = (setting, value) => {
-    settings[setting] = value;
+  const changeSetting = (optionName, selectedOption) => {
+    setSettings((prevSettings) => ({
+      ...prevSettings,
+      ['options']: {
+        ...prevSettings['options'],
+        [optionName]: selectedOption,
+      },
+    }));
   };
-
   // Event handler for checkbox options
   const handleCheckboxChange = (index) => {
     const updatedOptions = [...options];
     updatedOptions[index].checked = !updatedOptions[index].checked;
     setOptions(updatedOptions);
     changeSetting(updatedOptions[index].label, updatedOptions[index].checked);
-    console.log("updated option " + updatedOptions[index].label + ": " + updatedOptions[index].checked)
+    console.log(updatedOptions[index].label + ": " + updatedOptions[index].checked)
   };
 
   // Event handler for text input options
@@ -271,7 +281,7 @@ function OptionsSection() {
     updatedOptions[index].value = value;
     setOptions(updatedOptions);
     changeSetting(updatedOptions[index].label, updatedOptions[index].value);
-    console.log("updated option " + updatedOptions[index].label + ": " + updatedOptions[index].value)
+    console.log(updatedOptions[index].label + ": " + updatedOptions[index].value)
   };
 
   return (
@@ -288,7 +298,7 @@ function OptionsSection() {
                 <label className="switch">
                   <input
                     type="checkbox"
-                    checked={option.checked}
+                    checked={settings[option.label] || option.checked}
                     onChange={() => handleCheckboxChange(index)}
                   />
                   <span className="slider round"></span>
@@ -299,7 +309,7 @@ function OptionsSection() {
               <div className="option-input">
                 <input
                   type="text"
-                  value={option.value}
+                  value={settings[option.label] || option.value}
                   onChange={(event) => handleTextChange(index, event.target.value)}
                 />
               </div>
@@ -311,7 +321,7 @@ function OptionsSection() {
   );
 }
 
-function PluginsModsSection() {
+function PluginsModsSection({ settings, changeSetting }) {
   return (
     <div className='mods'>
       <p>Coming soon!</p>
@@ -319,7 +329,7 @@ function PluginsModsSection() {
   )
 }
 
-function AdvancedSection() {
+function AdvancedSection({ settings, changeSetting }) {
   return (
     <div className='advanced'>
       <p>Coming soon!</p>
@@ -327,7 +337,7 @@ function AdvancedSection() {
   )
 }
 
-function SectionBar({ activeSection, onSectionChange }) {
+function SectionBar({ activeSection, onSectionChange, settings }) {
   const handleSectionClick = (section) => {
     console.log("Section clicked: " + section);
     onSectionChange(section);
@@ -389,36 +399,27 @@ function SectionBar({ activeSection, onSectionChange }) {
   );
 }
 
-function CreateInstanceWindow() {
+const CreateInstanceWindow = () => {
   const [activeSection, setActiveSection] = useState('General');
+  const [settings, setSettings] = useState({});
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
   };
 
-  // Render the appropriate section based on the activeSection state
-  const renderSection = () => {
-    switch (activeSection) {
-      case 'General':
-        return <GeneralSection />;
-      case 'Options':
-        return <OptionsSection />;
-      case 'Plugins/Mods':
-        return <PluginsModsSection />;
-      case 'Advanced':
-        return <AdvancedSection />;
-      default:
-        return null;
-    }
-  };
-
   return (
-    <div className="App">
-      <SectionBar activeSection={activeSection} onSectionChange={handleSectionChange} />
-      {renderSection()}
+    <div>
+      <SectionBar activeSection={activeSection} onSectionChange={handleSectionChange} settings={settings} />
+      {activeSection === 'General' && (
+        <GeneralSection settings={settings} setSettings={setSettings} />
+      )}
+      {activeSection === 'Options' && <OptionsSection settings={settings} setSettings={setSettings} />}
+      {activeSection === 'Plugins/Mods' && <PluginsModsSection settings={settings} setSettings={setSettings} />}
+      {activeSection === 'Advanced' && <AdvancedSection settings={settings} setSettings={setSettings} />}
     </div>
   );
-}
+};
+
 
 root.render(
   <React.StrictMode>
