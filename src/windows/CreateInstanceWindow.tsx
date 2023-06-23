@@ -265,42 +265,59 @@ function GeneralSection({ settings, setSettings }) {
 function OptionsSection({ settings, setSettings }) {
   // TODO: try not to hardcode all of this crap here lol
   const [options, setOptions] = useState([
-    { label: 'Online mode', type: 'checkbox', checked: true },
-    { label: 'Enable query', type: 'checkbox', checked: false },
-    { label: 'Enable rcon', type: 'checkbox', checked: false },
-    { label: 'Force gamemode', type: 'checkbox', checked: false },
-    { label: 'Hardcore', type: 'checkbox', checked: false },
-    { label: 'White-list', type: 'checkbox', checked: false },
-    { label: 'Spawn animals', type: 'checkbox', checked: true },
-    { label: 'Spawn monsters', type: 'checkbox', checked: true },
-    { label: 'Generate structures', type: 'checkbox', checked: true },
-    { label: 'Snooper enabled', type: 'checkbox', checked: false },
-    { label: 'Enable command block', type: 'checkbox', checked: false },
-    { label: 'Announce player achievements', type: 'checkbox', checked: true },
+    { label: 'MOTD', type: 'text', value: 'A Minecraft Server' },
+    { label: 'Gamemode', type: 'text', value: 'survival' },
+    { label: 'Max Players', type: 'text', value: '20' },
+    { label: 'Online Mode', type: 'checkbox', checked: true },
+    { label: 'Server Port', type: 'text', value: 'Managed in general', disabled: true },
+    { label: 'Level Seed', type: 'text', value: '' },
     { label: 'PVP', type: 'checkbox', checked: true },
-    { label: 'Enable flight', type: 'checkbox', checked: false },
-    { label: 'Spawn protection', type: 'checkbox', checked: true },
-    { label: 'Spawn protection radius', type: 'text', value: '16' },
-    { label: 'Enable status', type: 'checkbox', checked: true },
-    { label: 'Max build height', type: 'text', value: '256' },
-    { label: 'Max players', type: 'text', value: '20' },
-    { label: 'View distance', type: 'text', value: '10' },
-    { label: 'Max tick time', type: 'text', value: '60000' },
-    { label: 'Max idle time', type: 'text', value: '0' },
+    { label: 'Allow Nether', type: 'checkbox', checked: true },
+    { label: 'Enable Command Block', type: 'checkbox', checked: false },
+    { label: 'Level Name', type: 'text', value: 'world' },
+    { label: 'Spawn Protection', type: 'text', value: '16' },
+    { label: 'Spawn NPCs', type: 'checkbox', checked: true },
+    { label: 'Spawn Animals', type: 'checkbox', checked: true },
     { label: 'Difficulty', type: 'text', value: 'easy' },
-    { label: 'Level seed', type: 'text', value: '' },
-    { label: 'Level type', type: 'text', value: 'minecraft:normal' },
-    { label: 'World size', type: 'text', value: '29999984' },
-    { label: 'World type', type: 'text', value: '' },
-    { label: 'Generator settings', type: 'text', value: '{}' },
-    { label: 'Allow nether', type: 'checkbox', checked: true },
-    { label: 'Allow end', type: 'checkbox', checked: true },
-    { label: 'Enable snooper', type: 'checkbox', checked: false },
-    { label: 'Resource pack', type: 'text', value: '' },
-    { label: 'Resource pack sha1', type: 'text', value: '' },
+    { label: 'Whitelist', type: 'checkbox', checked: false },
+    { label: 'Enforce Whitelist', type: 'checkbox', checked: false },
+    { label: 'Enable RCON', type: 'checkbox', checked: false },
+    { label: 'Generate Structures', type: 'checkbox', checked: true },
+    { label: 'RCON Port', type: 'text', value: '25575' },
+    { label: 'Enable Query', type: 'checkbox', checked: false },
+    { label: 'Query Port', type: 'text', value: '25565' },
+    { label: 'Require Resource Pack', type: 'checkbox', checked: false },
+    { label: 'View Distance', type: 'text', value: '10' },
+    { label: 'Allow Flight', type: 'checkbox', checked: false },
+    { label: 'Enable JMX Monitoring', type: 'checkbox', checked: false },
+    { label: 'Max Tick Time', type: 'text', value: '60000' },
+    { label: 'Function Permission Level', type: 'text', value: '2' },
+    { label: 'Generator Settings', type: 'text', value: '{}' },
+    { label: 'Network Compression Threshold', type: 'text', value: '256' },
+    { label: 'Sync Chunk Writes', type: 'checkbox', checked: true },
+    { label: 'Enforce Secure Profile', type: 'checkbox', checked: true },
+    { label: 'Resource Pack Prompt', type: 'text', value: '' },
+    { label: 'Use Native Transport', type: 'checkbox', checked: true },
+    { label: 'Hide Online Players', type: 'checkbox', checked: false },
+    { label: 'Broadcast Console to Ops', type: 'checkbox', checked: true },
+    { label: 'Hardcore', type: 'checkbox', checked: false },
+    { label: 'OP Permission Level', type: 'text', value: '4' },
+    { label: 'Prevent Proxy Connections', type: 'checkbox', checked: false },
+    { label: 'Resource Pack', type: 'text', value: '' },
+    { label: 'Simulation Distance', type: 'text', value: '10' },
+    { label: 'Entity Broadcast Range Percentage', type: 'text', value: '100' },
+    { label: 'Player Idle Timeout', type: 'text', value: '0' },
+    { label: 'Force Gamemode', type: 'checkbox', checked: false },
+    { label: 'Rate Limit', type: 'text', value: '0' },
+    { label: 'Initial Enabled Packs', type: 'text', value: 'vanilla' },
+    { label: 'Level Type', type: 'text', value: 'minecraft:normal' },
+    { label: 'Text Filtering Config', type: 'text', value: '' },
+    { label: 'Spawn Monsters', type: 'checkbox', checked: true },
+    { label: 'Resource Pack SHA1', type: 'text', value: '' },
+    { label: 'Max World Size', type: 'text', value: '29999984' },
   ]);
 
-  
+
   const changeSetting = (optionName, selectedOption) => {
     setSettings((prevSettings) => ({
       ...prevSettings,
@@ -346,6 +363,7 @@ function OptionsSection({ settings, setSettings }) {
                     type="checkbox"
                     checked={option.checked}
                     onChange={() => handleCheckboxChange(index)}
+                    disabled={option.disabled}
                   />
                   <span className="slider round"></span>
                 </label>
@@ -357,6 +375,7 @@ function OptionsSection({ settings, setSettings }) {
                   type="text"
                   value={option.value}
                   onChange={(event) => handleTextChange(index, event.target.value)}
+                  disabled={option.disabled}
                 />
               </div>
             )}
