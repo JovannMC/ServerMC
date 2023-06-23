@@ -8,9 +8,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const settings: Record<string, string> = {};
 
 interface CombinedFieldProps {
-  options: string[]; // Array of available options
-  onSelect: (selectedOption: string) => void; // Callback when an option is selected
-  defaultEntry: string; // Default value of the field
+  options: string[];
+  onSelect: (selectedOption: string) => void;
+  defaultEntry: string;
 }
 
 const CombinedField: React.FC<CombinedFieldProps> = ({ options, onSelect, defaultEntry }) => {
@@ -55,6 +55,7 @@ const CombinedField: React.FC<CombinedFieldProps> = ({ options, onSelect, defaul
 
 function GeneralSection() {
   // TODO: change these to not be hardcoded of course, grab from server
+  // use MCUtils beta (when it releases) to grab server software and versions
   const serverSoftware = ['Vanilla', 'Spigot', 'Paper', 'Forge', 'Fabric'];
   const versions = ['1.20.1', '1.20', '1.19.4', '1.19.3', '1.19.2', '1.19.1', '1.19', '1.18.2', '1.18.1', '1.18', '1.17.1', '1.17', '1.16.5', '1.16.4', '1.16.3', '1.16.2', '1.16.1', '1.16', '1.15.2', '1.15.1', '1.15', '1.14.4', '1.14.3', '1.14.2', '1.14.1', '1.14', '1.13.2', '1.13.1', '1.13', '1.12.2', '1.12.1', '1.12', '1.11.2', '1.11.1', '1.11', '1.10.2', '1.10.1', '1.10', '1.9.4', '1.9.3', '1.9.2', '1.9.1', '1.9', '1.8.9'];
   const groups = ['Default', 'Group 1', 'Group 2', 'Group 3'];
@@ -161,15 +162,15 @@ function GeneralSection() {
         <div className='allocation-settings'>
           <div className='setting'>
             <div className='allocation-settings-text'>CPU</div>
-            <SliderWithTextBox settingName='CPU'/>
+            <SliderWithTextBox settingName='CPU' />
           </div>
           <div className='setting'>
             <div className='allocation-settings-text'>RAM</div>
-            <SliderWithTextBox settingName='RAM'/>
+            <SliderWithTextBox settingName='RAM' />
           </div>
           <div className='setting'>
             <div className='allocation-settings-text'>Port</div>
-            <input type="text" placeholder="25565" onChange={(value) => changeSetting('port', event.target.value)}/>
+            <input type="text" placeholder="25565" onChange={(value) => changeSetting('port', event.target.value)} />
           </div>
         </div>
       </div>
@@ -178,6 +179,7 @@ function GeneralSection() {
 }
 
 function OptionsSection() {
+  // TODO: try not to hardcode all of this crap here lol
   const [options, setOptions] = useState([
     { label: 'Online mode', type: 'checkbox', checked: true },
     { label: 'Enable query', type: 'checkbox', checked: false },
@@ -213,7 +215,7 @@ function OptionsSection() {
     { label: 'Resource pack sha1', type: 'text', value: '' },
   ]);
 
-  const changeSetting = ( setting, value ) => {
+  const changeSetting = (setting, value) => {
     settings[setting] = value;
   };
 
@@ -350,7 +352,6 @@ function SectionBar({ activeSection, onSectionChange }) {
   );
 }
 
-
 function CreateInstanceWindow() {
   const [activeSection, setActiveSection] = useState('General');
 
@@ -381,7 +382,6 @@ function CreateInstanceWindow() {
     </div>
   );
 }
-
 
 root.render(
   <React.StrictMode>

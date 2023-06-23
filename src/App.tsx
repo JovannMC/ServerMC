@@ -12,10 +12,12 @@ interface ButtonProps {
 
 function Button({ text, icon, id }: ButtonProps) {
     const handleItemClick = () => {
+        // If button has text, send the text to the main process
         if (text != null && text != undefined) {
             console.log('Clicked on', text);
             ipcRenderer.send(text.toLowerCase() + '-window');
         } else {
+            // If button doesn't have text, send the icon name to the main process
             console.log('Clicked on', icon);
             ipcRenderer.send(icon.toLowerCase() + '-window');
         }
@@ -55,7 +57,6 @@ function FolderItem({ text, icon }: FolderItemProps) {
         }
     };
 
-
     const handleItemDoubleClick = () => {
         console.log('Double-clicked on', text);
     };
@@ -87,18 +88,13 @@ function FolderItem({ text, icon }: FolderItemProps) {
         </div>
     );
 }
-
-function Separator() {
-    return <div className="separator"></div>;
-}
-
 function App() {
     return (
         <div className="App">
             <div className="sidebar">
                 <div className="settingsbar">
                     <Button text="Create" icon="question" />
-                    <Separator />
+                    <div className="separator"></div>
                     <Button text="Settings" icon="question" />
                     <Button text="Help" icon="question" />
                     <Button icon="cat" id="icon-only" />
