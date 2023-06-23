@@ -215,12 +215,13 @@
   bottom: 0;
   left: 0;
   display: flex;
-  align-items: center;
+  align-items: flex;
   flex-direction: column;
   padding: 0 10px;
   gap: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
+  width: 500px;
 }
 
 .allocation .allocation-text {
@@ -230,14 +231,11 @@
 
 .allocation .allocation-settings {
   display: flex;
-  align-items: center;
   flex-direction: column;
   gap: 10px;
 }
 
 .allocation .allocation-settings-text {
-  font-size: 16px;
-  font-weight: 400;
   width: 40px;
 }
 
@@ -245,6 +243,19 @@
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+.allocation .setting .sliderWithTextbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.allocation .setting .textbox input {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 50px;
 }
 
 /*

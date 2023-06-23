@@ -2,6 +2,7 @@ import { ipcRenderer } from 'electron';
 import '../static/css/CreateInstance.css';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import os from 'os';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -80,45 +81,79 @@ function GeneralSection() {
   };
 
   const SliderWithTextBox = ({ settingName }) => {
-    const [value, setValue] = useState(50);
+    const cpuCores = os.cpus().length;
+    const totalMemory = os.totalmem() / 1024 / 1024;
+
+    const [cpuValue, setCpuValue] = useState(2);
+    const [ramValue, setRamValue] = useState(2048);
 
     const handleSliderChange = (event) => {
-      setValue(Number(event.target.value));
-      if (settingName == 'CPU') {
-        changeSetting('cpu', event.target.value);
-      } else if (settingName == 'RAM') {
-        changeSetting('ram', event.target.value);
+      const { value } = event.target;
+      if (settingName === 'CPU') {
+        setCpuValue(value);
+        changeSetting('cpu', value);
+      } else if (settingName === 'RAM') {
+        setRamValue(value);
+        changeSetting('ram', value);
       }
     };
 
     const handleTextBoxChange = (event) => {
-      setValue(Number(event.target.value));
-      if (settingName == 'CPU') {
-        changeSetting('cpu', settingValue);
-      } else if (settingName == 'RAM') {
-        changeSetting('ram', settingValue);
+      const { value } = event.target;
+      if (settingName === 'CPU') {
+        setCpuValue(value);
+        changeSetting('cpu', value);
+      } else if (settingName === 'RAM') {
+        setRamValue(value);
+        changeSetting('ram', value);
       }
     };
 
-    return (
-      <div>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={value}
-          onChange={handleSliderChange}
-        />
-        <input
-          type="number"
-          min="0"
-          max="100"
-          value={value}
-          onChange={handleTextBoxChange}
-        />
-      </div>
-    );
+    if (settingName === 'CPU') {
+      return (
+        <div className="sliderWithTextbox">
+          <input
+            type="range"
+            min="1"
+            max={cpuCores}
+            value={cpuValue}
+            onChange={handleSliderChange}
+          />
+          <div className="textbox">
+            <input
+              type="number"
+              min="1"
+              max={cpuCores}
+              value={cpuValue}
+              onChange={handleTextBoxChange}
+            />
+          </div>
+        </div>
+      );
+    } else if (settingName === 'RAM') {
+      return (
+        <div className="sliderWithTextbox">
+          <input
+            type="range"
+            min="512"
+            max={totalMemory}
+            value={ramValue}
+            onChange={handleSliderChange}
+          />
+          <div className="textbox">
+            <input
+              type="number"
+              min="512"
+              max={totalMemory}
+              value={ramValue}
+              onChange={handleTextBoxChange}
+            />
+          </div>
+        </div>
+      );
+    }
   };
+
 
   return (
     <div className="section-content">
@@ -170,7 +205,9 @@ function GeneralSection() {
           </div>
           <div className='setting'>
             <div className='allocation-settings-text'>Port</div>
-            <input type="text" placeholder="25565" onChange={(value) => changeSetting('port', event.target.value)} />
+            <div className="textbox">
+              <input type="text" placeholder="25565" onChange={(value) => changeSetting('port', event.target.value)} />
+            </div>
           </div>
         </div>
       </div>
