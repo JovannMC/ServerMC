@@ -249,13 +249,13 @@ function GeneralSection({ settings, setSettings }) {
           <div className='setting'>
             <div className='allocation-settings-text'>RAM</div>
             <SliderWithTextBox settingName='RAM' />
-          </div>
+          </div>{/*
           <div className='setting'>
             <div className='allocation-settings-text'>Port</div>
             <div className="textbox">
               <input type="text" placeholder="25565" onChange={(value) => changeSetting('port', event.target.value)} />
             </div>
-          </div>
+          </div>*/}
         </div>
       </div>
     </div>
@@ -267,54 +267,54 @@ function OptionsSection({ settings, setSettings }) {
   // TODO: also have settings for other server software
   const [options, setOptions] = useState([
     { label: 'MOTD', type: 'text', value: 'A Minecraft Server' },
-    { label: 'Gamemode', type: 'text', value: 'survival' },
     { label: 'Max Players', type: 'text', value: '20' },
     { label: 'Online Mode', type: 'checkbox', checked: true },
-    { label: 'Server Port', type: 'text', value: 'Managed in general', disabled: true },
-    { label: 'Level Seed', type: 'text', value: '' },
+    { label: 'Server Port', type: 'text', value: '25565' },
     { label: 'PVP', type: 'checkbox', checked: true },
-    { label: 'Allow Nether', type: 'checkbox', checked: true },
+    { label: 'Difficulty', type: 'text', value: 'easy' },
+    { label: 'View Distance', type: 'text', value: '10' },
+    { label: 'Simulation Distance', type: 'text', value: '10' },
+    { label: 'Gamemode', type: 'text', value: 'survival' },
+    { label: 'Force Gamemode', type: 'checkbox', checked: false },
     { label: 'Enable Command Block', type: 'checkbox', checked: false },
+    { label: 'Enforce Secure Profile', type: 'checkbox', checked: false },
+    { label: 'Level Seed', type: 'text', value: '' },
     { label: 'Level Name', type: 'text', value: 'world' },
+    { label: 'Level Type', type: 'text', value: 'minecraft:normal' },
+    { label: 'Generator Settings', type: 'text', value: '{}' },
     { label: 'Spawn Protection', type: 'text', value: '16' },
     { label: 'Spawn NPCs', type: 'checkbox', checked: true },
     { label: 'Spawn Animals', type: 'checkbox', checked: true },
-    { label: 'Difficulty', type: 'text', value: 'easy' },
+    { label: 'Spawn Monsters', type: 'checkbox', checked: true },
+    { label: 'Hide Online Players', type: 'checkbox', checked: false },
     { label: 'Whitelist', type: 'checkbox', checked: false },
     { label: 'Enforce Whitelist', type: 'checkbox', checked: false },
-    { label: 'Enable RCON', type: 'checkbox', checked: false },
     { label: 'Generate Structures', type: 'checkbox', checked: true },
-    { label: 'RCON Port', type: 'text', value: '25575' },
     { label: 'Enable Query', type: 'checkbox', checked: false },
     { label: 'Query Port', type: 'text', value: '25565' },
-    { label: 'Require Resource Pack', type: 'checkbox', checked: false },
-    { label: 'View Distance', type: 'text', value: '10' },
+    { label: 'Prevent Proxy Connections', type: 'checkbox', checked: false },
+    { label: 'Allow Nether', type: 'checkbox', checked: true },
     { label: 'Allow Flight', type: 'checkbox', checked: false },
-    { label: 'Enable JMX Monitoring', type: 'checkbox', checked: false },
     { label: 'Max Tick Time', type: 'text', value: '60000' },
-    { label: 'Function Permission Level', type: 'text', value: '2' },
-    { label: 'Generator Settings', type: 'text', value: '{}' },
     { label: 'Network Compression Threshold', type: 'text', value: '256' },
     { label: 'Sync Chunk Writes', type: 'checkbox', checked: true },
-    { label: 'Enforce Secure Profile', type: 'checkbox', checked: true },
-    { label: 'Resource Pack Prompt', type: 'text', value: '' },
     { label: 'Use Native Transport', type: 'checkbox', checked: true },
-    { label: 'Hide Online Players', type: 'checkbox', checked: false },
+    { label: 'Enable RCON', type: 'checkbox', checked: false },
+    { label: 'RCON Port', type: 'text', value: '25575' },
     { label: 'Broadcast Console to Ops', type: 'checkbox', checked: true },
     { label: 'Hardcore', type: 'checkbox', checked: false },
+    { label: 'Function Permission Level', type: 'text', value: '2' },
     { label: 'OP Permission Level', type: 'text', value: '4' },
-    { label: 'Prevent Proxy Connections', type: 'checkbox', checked: false },
+    { label: 'Require Resource Pack', type: 'checkbox', checked: false },
+    { label: 'Resource Pack Prompt', type: 'text', value: '' },
     { label: 'Resource Pack', type: 'text', value: '' },
-    { label: 'Simulation Distance', type: 'text', value: '10' },
+    { label: 'Resource Pack SHA1', type: 'text', value: '' },
     { label: 'Entity Broadcast Range Percentage', type: 'text', value: '100' },
     { label: 'Player Idle Timeout', type: 'text', value: '0' },
-    { label: 'Force Gamemode', type: 'checkbox', checked: false },
     { label: 'Rate Limit', type: 'text', value: '0' },
     { label: 'Initial Enabled Packs', type: 'text', value: 'vanilla' },
-    { label: 'Level Type', type: 'text', value: 'minecraft:normal' },
     { label: 'Text Filtering Config', type: 'text', value: '' },
-    { label: 'Spawn Monsters', type: 'checkbox', checked: true },
-    { label: 'Resource Pack SHA1', type: 'text', value: '' },
+    { label: 'Enable JMX Monitoring', type: 'checkbox', checked: false },
     { label: 'Max World Size', type: 'text', value: '29999984' },
   ]);
 
@@ -364,7 +364,6 @@ function OptionsSection({ settings, setSettings }) {
                     type="checkbox"
                     checked={option.checked}
                     onChange={() => handleCheckboxChange(index)}
-                    disabled={option.disabled}
                   />
                   <span className="slider round"></span>
                 </label>
@@ -376,7 +375,6 @@ function OptionsSection({ settings, setSettings }) {
                   type="text"
                   value={option.value}
                   onChange={(event) => handleTextChange(index, event.target.value)}
-                  disabled={option.disabled}
                 />
               </div>
             )}

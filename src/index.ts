@@ -69,7 +69,6 @@ ipcMain.on("create-window", () => {
 });
 
 // Listen for instance creation
-// FIXME: solve issue where entries are placed at bottom and doesn't overwrite existing entries
 ipcMain.on("create-createInstance", (event, data) => {
   console.log("ipc received: create-createInstance");
   console.log(data);
@@ -194,6 +193,7 @@ ipcMain.on("create-createInstance", (event, data) => {
           const options = data["options"];
 
           // Merge the options with the existing settings
+          // NOTE: Minecraft overwrites the existing keys with the new settings when the server.properties file is loaded, so no need to replace the existing keys
           const mergedSettings = {
             ...defaultSettings,
             ...existingSettings,
@@ -218,7 +218,6 @@ ipcMain.on("create-createInstance", (event, data) => {
     }
   );
 
-  // close createInstanceWindow
   //createInstanceWindow.close();
 });
 
