@@ -1,8 +1,6 @@
 @import "./app.global.css";
 
-/*
-    Content/Folders
-*/
+/* #region Content/Folders */
 
 .section-content {
   display: flex;
@@ -13,10 +11,9 @@
   height: 100%;
 }
 
-/* 
-    Section bar
-*/
+/* #endregion */
 
+/* #region Section bar */
 .sectionbar {
   background-color: #f1f1f1;
   width: 100%;
@@ -69,15 +66,11 @@
   font-weight: 500;
 }
 
-/* 
+/* #endregion */
 
-    General section
+/* #region General section */
 
-*/
-
-/* 
-    Server info
-*/
+/* #region Server info */
 
 .server-icon {
   display: flex;
@@ -132,9 +125,9 @@
   font-weight: 400;
 }
 
-/* 
-    Versions
-*/
+/* #endregion */
+
+/* #region Versions */
 
 .versions {
   display: flex;
@@ -183,9 +176,9 @@
   background-color: #ccc;
 }
 
-/* 
-    Server software
-*/
+/* #endregion */
+
+/* #region Server software */
 
 .server-software {
   display: flex;
@@ -212,9 +205,9 @@
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
-/*
-    Allocation
-*/
+/* #endregion */
+
+/* #region Allocation */
 
 .allocation {
   position: absolute;
@@ -264,11 +257,11 @@
   width: 50px;
 }
 
-/*
+/* #endregion */
 
-    Options Section
+/* #endregion */
 
-*/
+/* #region Options Section */
 
 .options {
   display: flex;
@@ -379,3 +372,5 @@
   font-size: 24px;
   font-weight: bold;
 }
+
+/* #endregion */

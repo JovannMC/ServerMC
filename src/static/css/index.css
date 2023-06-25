@@ -1,8 +1,6 @@
 @import "./app.global.css";
 
-/*
-    Content/Folders
-*/
+/* #region Content/Folders */
 
 .content {
   margin-top: 50px;
@@ -79,9 +77,9 @@
   text-overflow: ellipsis;
 }
 
-/*
-    Settings bar
-*/
+/* #endregion */
+
+/* #region Settings bar */
 
 .settingsbar {
   background-color: #f1f1f1;
@@ -160,9 +158,9 @@
   margin-right: 1.25rem;
 }
 
-/*
-    Info bar
-*/
+/* #endregion */
+
+/* #region Info bar */
 
 .infobar {
   background-color: #f1f1f1;
@@ -224,3 +222,5 @@
 .infobar-server-version {
   font-size: 14px;
 }
+
+/* #endregion */

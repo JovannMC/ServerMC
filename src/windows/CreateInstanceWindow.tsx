@@ -17,6 +17,7 @@ let combinedSettings = {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// #region Helpers
 interface CombinedFieldProps {
   options: string[];
   onSelect: (selectedOption: string) => void;
@@ -100,7 +101,9 @@ const CombinedField: React.FC<CombinedFieldProps> = ({
   );
 };
 
+// #endregion
 
+// #region Sections
 function GeneralSection({ settings, setSettings }) {
   // TODO: change these to not be hardcoded of course, grab from server
   // use MCUtils beta (when it releases) to grab server software and versions
@@ -462,6 +465,7 @@ function SectionBar({ activeSection, onSectionChange }) {
     </div>
   );
 }
+// #endregion
 
 const CreateInstanceWindow = () => {
   const [activeSection, setActiveSection] = useState('General');
